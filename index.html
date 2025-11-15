@@ -1,95 +1,46 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sowmya, Listen to this</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Player</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background: #f6f6f6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .box {
-      background: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-      width: 90%;
-      max-width: 450px;
+      font-family: Arial;
+      padding: 20px;
       text-align: center;
     }
-    h2 {
-      margin-top: 0;
-    }
-    audio {
-      width: 100%;
-      margin-top: 15px;
-    }
-    #playBtn {
-      margin-top: 15px;
-      padding: 10px 18px;
-      font-size: 16px;
+    button {
+      padding: 12px 20px;
+      font-size: 18px;
+      border-radius: 10px;
       border: none;
-      border-radius: 8px;
-      background: teal;
+      background-color: #3b82f6;
       color: white;
-      cursor: pointer;
     }
   </style>
 </head>
 <body>
 
-  <div class="box">
-    <h2>listen to this</h2>
-    
+<h2>Listen to this</h2>
 
-    <audio id="player" preload="auto" controls>
-      <source src="audio/03_-_Vaalu_Kalla_Vayyari - SenSongsMp3.co.mp3" type="audio/mpeg">
-      Your browser does not support audio.
-    </audio>
+<button onclick="playSong()">Play Song (2:30 → 3:00)</button>
 
-    <button id="playBtn">Play segment</button>
-  </div>
+<audio id="player">
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
 
 <script>
-const audio = document.getElementById("player");
-const playBtn = document.getElementById("playBtn");
+function playSong() {
+  const audio = document.getElementById("player");
 
-const START = 150; // 2:30
-const END = 180;   // 3:00
+  audio.currentTime = 150; // start at 2:30
+  audio.play();
 
-// Once song metadata loads, jump to 2:30
-audio.addEventListener("loadedmetadata", () => {
-  audio.currentTime = START;
-});
-
-// Stop at 3:00
-audio.addEventListener("timeupdate", () => {
-  if (audio.currentTime >= END) {
+  setTimeout(() => {
     audio.pause();
-  }
-});
-
-// Manual play button (for autoplay-blocked browsers)
-playBtn.addEventListener("click", async () => {
-  audio.currentTime = START;
-  try {
-    await audio.play();
-  } catch(e) {
-    console.log("Playback blocked", e);
-  }
-});
+  }, 30000); // stop at 3:00 (~30s)
+}
 </script>
 
 </body>
 </html>
-
-
-
-
