@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Listen to this</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f6f6f6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .box {
+      background: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 450px;
+      text-align: center;
+    }
+    h2 {
+      margin-top: 0;
+    }
+    audio {
+      width: 100%;
+      margin-top: 15px;
+    }
+    #playBtn {
+      margin-top: 15px;
+      padding: 10px 18px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: teal;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="box">
+    <h2>listen to this</h2>
+    <p>This will play the song from <b>2:30 to 3:00</b>.</p>
+
+    <audio id="player" preload="auto" controls>
+      <source src="song.mp3" type="audio/mpeg">
+      Your browser does not support audio.
+    </audio>
+
+    <button id="playBtn">Play segment</button>
+  </div>
+
+<script>
+const audio = document.getElementById("player");
+const playBtn = document.getElementById("playBtn");
+
+const START = 150; // 2:30
+const END = 180;   // 3:00
+
+// Once song metadata loads, jump to 2:30
+audio.addEventListener("loadedmetadata", () => {
+  audio.currentTime = START;
+});
+
+// Stop at 3:00
+audio.addEventListener("timeupdate", () => {
+  if (audio.currentTime >= END) {
+    audio.pause();
+  }
+});
+
+// Manual play button (for autoplay-blocked browsers)
+playBtn.addEventListener("click", async () => {
+  audio.currentTime = START;
+  try {
+    await audio.play();
+  } catch(e) {
+    console.log("Playback blocked", e);
+  }
+});
+</script>
+
+</body>
+</html>
